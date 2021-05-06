@@ -12,12 +12,24 @@ springboot是spring提供的一个框架，让spring的一切应用变得更加简单。
 @SpringBootApplication：
 1、标注在一个类上，说明这个类是springboot的启动类。
 一旦运行这个启动类，springboot就会默认进行部署，部署的端口号为8080，
-访问方式：http://ip:端口号/请求地址
+访问方式：http://ip:端口号/请求地址，如果要修改默认占用的端口号在application.properties中做配置：
+
 2、该注解会自动启用包的扫描功能，会自动扫描包中的注解(只扫spring相关的注解)，
 默认扫启动类所在包下面的所有东西。因此我们的代码要放在和启动类的平级目录下。
+3、该注解会开启springboot的自动配置配置功能@EnableAutoConfiguration。
 
 
 @MapperScan：
 标注在启动类上，告诉springboot哪个是dao包，让springboot去扫，
 为dao中的所有接口生成代理,如：
 @MapperScan("com.ck.dao")
+
+springboot中的启动器：是指springboot中带starter的依赖，
+这些启动器中把能做好的全部默认配置好了，设计思路：默认配置优于手动配置。
+springboot最大的功能：自动配置(自动装配)。
+springboot的自动配置由@EnableAutoConfiguration开启。
+
+@ComponentScan：指定要扫描的包
+
+# 修改springboot启动时占用的端口号，默认为8080，在application.properties中配置：
+server.port=8081
