@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>宿舍名字</td>
+            <td>宿舍地址</td>
+            <td>宿舍人数</td>
+        </tr>
+        <tr th:each="s:${susheList}">
+            <td th:text="${s.name}">宿舍名字</td>
+            <td th:text="${s.address}">宿舍地址</td>
+            <td th:text="${s.peoples}">宿舍人数</td>
+        </tr>
+    </table>
+</body>
+</html>

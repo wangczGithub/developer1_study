@@ -1,0 +1,24 @@
+1、String s = "Hello";s=s+"World!";这两行代码执行后，原始的String对象中的内容到底变了没有？为什么？
+2、是否可以继承String类?为什么？
+3、String s = new String("xyz");创建了几个String Object? 二者之间有什么区别？
+4、String和StringBuffer的区别。
+5、如何把一段逗号分割的字符串转换成一个数组?
+6、数组有没有length()这个方法? String有没有length()这个方法？
+7、下面这条语句一共创建了多少个对象：String s="a"+"b"+"c"+"d";
+8、try {}里有一个return语句，那么紧跟在这个try后的finally {}里的code会不会被执行，什么时候被执行，在return前还是后?
+9、final, finally, finalize的区别。
+10、下面的程序代码输出的结果是多少？
+public class  smallT{
+	public static void  main(String args[]){
+		smallT t  = new  smallT();
+		int  b  =  t.get();
+		System.out.println(b);
+	}
+	public int  get(){
+		try{
+			return 1 ;
+		}finally{
+			return 2 ;
+		}
+	}
+}
