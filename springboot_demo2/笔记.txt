@@ -1,0 +1,44 @@
+springboot的@SpringBootApplication默认只会扫描spring相关的注解，如果要扫servlet的相关注解(@WebFilter/@WebServlet),需要在启动类上加ServletComponentScan，注解在启动类上，让springboot去扫servlet相关的注解。
+
+springboot中开发拦截器：
+1、编写一个类实现HandlerInterceptor接口。
+2、重写拦截方法preHandle。
+3、注册编写好的拦截器，指定拦截器能拦截什么请求：
+<1>编写配置类用来注册拦截器，该配置类实现WebMvcConfigurer接口
+<2>重写addInterceptors注册拦截器：
+registry.addInterceptor(拦截器对象)// 默认拦截所有(url,js,css,img....)
+.addPathPatterns("/test")// 指定拦截的请求
+.excludePathPatterns("/**/*.js");// 指定不拦截的请求
+<3>注意：
+* 一个addInterceptors方法中可以注册多个拦截器。
+* 多个拦截器的执行顺序和注册顺序一样，谁先注册谁先执行。
+
+
+
+springboot项目中的static目录：
+1、static目录默认为springboot项目的静态资源目录，我们将所有的静态资源(js/css/图片...)都放这个目录，springboot默认就会在static目录下找静态资源。
+
+
+devtools：
+可以实现热部署，只要java代码发生了改变，就会进行自动部署。
+1、加入devtools热部署依赖：
+<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+</dependency>
+2、Settings->Build...->Compiler->勾选Build Project automatically，设置项目自动编译。
+3、ctrl+shift+alt+/->register->勾选compiler automake...app.running->compiler.automake...less than为500
+4、idea中使用切换idea窗口(alt+tab)来触发自动部署。
+
+
+Lombok：是一个代码生成插件，类在运行过程中，为类生成方法。
+作用：可以简化代码。
+@Setter：注解在一个类上，让这个类在运行过程中自动生成setter方法
+@Getter：注解在一个类上，让这个类在运行过程中自动生成getter方法
+@NoArgsConstructor:注解在一个类上，让这个类在运行过程中自动生成无参构造方法。
+@AllArgsConstructor：注解在一个类上，让这个类在运行过程中自动生成带所有参数的构造方法。
+@Data：该注解等价于@Setter和@Getter和@NoArgsConstructor
+@ToString：生成toString方法。
+
