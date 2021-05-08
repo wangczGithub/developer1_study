@@ -1,0 +1,68 @@
+UUID.randomUUID().toString()：使用UUID随机生成一个36位的唯一字符串。
+
+
+springboot发送电子邮件：
+1、io中添加mail启动器，会自动配置好JavaMailSenderImpl发送者对象。
+2、在application.properties中配置邮件的相关信息：
+spring.mail.host=smtp.163.com
+spring.mail.username=cheng_wyzf@163.com
+spring.mail.password=DINODMVPZVSBPYKA
+spring.mail.default-encoding=UTF-8
+3、使用：和springmvc发送电子邮件一样。
+
+
+
+springboot做文件上传：
+1、springboot添加web starter后会自动配置文件上传解析器。
+2、controller中使用MultipartFile来接受。
+3、将文件上传到本地目录。(原因：springboot中没有web目录)
+4、在实现了WebMvcConfigurer的配置类中将本地目录映射到指定URL地址上，方便通过URL地址获取本地目录中的文件：
+* 重写addResourceHandlers方法。
+* 将本地目录映射到指定url上： 
+registry.addResourceHandler("/images/**")
+	.addResourceLocations("file:D:\\upload\\images\\");
+将本地目录D:\\upload\\images\\映射到images/*这个url地址上，这样就可以通过images/1.jpg访问本地目录中的1.jpg图片。
+
+
+springboot做文件下载：
+1、使用FileCopyUtils.copyToByteArray()将文件读成字节数组：
+byte[] bytes = FileCopyUtils.copyToByteArray(new File(uploadPath + "1.jpg"));
+2、其他和springmvc做下载一样。
+
+
+springboot中properties属性文件的类型：
+1、springboot的配置文件application.properties：
+<1>application.properties中可以定义springboot的配置信息，也可以自定义配置。
+<2>application.properties中定义的配置可以通过@Value(键)直接引用。
+2、在resources下自定义属性文件：
+<1>在启动类上通过@PropertySource注解引入自定义的属性文件：
+@PropertySource(value = {"constants.properties"},encoding = "GBK")
+* 引入的属性文件路径默认为classpath，即resources目录。
+* 可以引入多个属性文件
+<2>通过@Value(键)使用。
+
+
+
+springboot做注解式事务：
+1、springboot添加web starter后会自动配置事务管理器。
+2、在springboot的启动类上使用@EnableTransactionManagement开启事务管理器。
+3、在需要使用事务的方法上使用@Transactional。
+
+
+springboot配置全局错误页面：
+1、注册全局错误页面：
+* 编写配置类实现接口ErrorPageRegistrar，重写registerErrorPages方法。
+* 创建PageError错误页面对象:
+new ErrorPage(HttpStatus.NOT_FOUND, "/errorPages/404");
+new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/errorPages/500");
+第一个参数指定错误代码(错误类型);
+第二个参数指定发生错误后跳到哪个controller去处理，必须以/开头。
+* 注册全局错误页面：
+registry.addErrorPages(errorPage404,errorPage500);
+2、编写controller处理全局错误：
+@RequestMapping("/errorPages/{code}")
+public String toErrorPage(@PathVariable String code){
+        return "error/"+code;// 跳到error下的指定页面
+}
+
+
