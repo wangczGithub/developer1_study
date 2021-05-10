@@ -1,0 +1,66 @@
+mybatis plus(增强)：是一个增强版的mybatis，简称为mp，它在mybatis的基础上不做改变只做增强，对mybatis的项目没有任何侵入性。设计的目的：为了提高开发效率。
+
+springboot中使用mp：
+1、添加mp的依赖：
+<!--mybatis-plus-->
+<dependency>
+	<groupId>com.baomidou</groupId>
+	<artifactId>mybatis-plus</artifactId>
+	<version>3.4.2</version>
+</dependency>
+<!--springboot集成mp的启动器-->
+<dependency>
+	<groupId>com.baomidou</groupId>
+	<artifactId>mybatis-plus-boot-starter</artifactId>
+	<version>3.4.2</version>
+</dependency>
+2、在application.properties中指定mp映射文件的路径：
+mybatis-plus.mapper-locations=mappers/*.xml
+或者
+mybatis-plus.config-location=mybatis-config.xml
+
+
+BaseMapper：这是mp提供的通用的mapper(dao)，里面有很多方法做增删改查。
+1、insert(实体类对象)：添加
+2、updateById(实体类对象)：根据id做修改
+3、update(实体类对象,QueryWrapper)：根据条件做修改
+4、deleteById(id)：根据id做删除
+5、deleteBatchIds(id的集合)：根据多个id做批量删除
+6、delete(QueryWrapper):根据条件做删除
+7、selectById(id)：根据id做查询
+8、selectBatchIds(id的集合)：根据多个id做查询
+9、selectList(QueryWrapper)：根据条件查询多个，如果没有条件则传null。
+10、selectCount(QueryWrapper)：根据条件查询数据条数，如果要查询总条数则传null。
+【注意】这些方法执行的sql由mp自动生成。
+
+总结：
+1、对于简单的增删改查，直接使用mp，能提高开发效率。
+2、对于复杂的sql语句，还是按照mybatis去写。
+3、对于实现mp不方便的功能，直接用mybatis去写。
+4、mp实体类中的属性必须不能带下划线"_"，推荐我们使用驼峰命名法，但是数据库表中的字段名可以带下划线。因此以后我们这么干：
+表中的字段名不带下划线，实体类中的属性名和字段名保存一致。
+
+
+mp中QueryWrapper的使用：用来封装条件用的，如果没有条件则传null
+QueryWrapper wrapper = new QueryWrapper<实体类>();
+wrapper.like....eq..ne......
+
+
+
+mp实体类中的注解：
+1、@TableName("表名")：注解在一个实体类上，说明这个实体类对应哪个数据库表，如果数据库表名和实体类类名相同则可以不写这个注解。
+2、@TableId("主键字段名")：注解在一个属性上，说明这个属性对应表中的哪个主键字段，如果属性名和字段名相同，则可以不写注解中的"主键字段名"。
+3、@TableField("非主键字段名")：注解在一个属性上，说明这个属性对应表中的哪个非主键字段，如果属性名和字段名相同，则该注解可以不写。如果实体类中出现了和表中字段没有对应的属性，添加exist = false，说明该属性在表中不存在。
+
+
+
+
+
+
+
+
+
+
+
+
+
