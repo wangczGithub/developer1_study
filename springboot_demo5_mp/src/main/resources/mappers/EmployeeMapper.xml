@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这是t_emp表的映射文件-->
+<!--一个表对应一个映射文件-->
+<!--namespace指定dao接口，让映射文件和dao一一对应-->
+<mapper namespace="com.ck.dao.IEmployeeDao">
+
+    <resultMap id="empMapper" type="com.ck.entity.Employee">
+        <result column="e_id" property="eid"/>
+        <result column="e_name" property="ename"/>
+        <result column="e_sex" property="esex"/>
+        <result column="e_salary" property="esalary"/>
+        <result column="e_position" property="eposition"/>
+        <result column="e_in" property="ein"/>
+        <!--关联查询员工对应的部门(一)-->
+        <!--selectById是从basemapper中继承过来的，用来根据id做查询-->
+        <association
+                select="com.ck.dao.IDeptDao.selectById"
+                column="e_d_id"
+                property="dept"></association>
+    </resultMap>
+
+
+
+
+</mapper>

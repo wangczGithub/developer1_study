@@ -1,0 +1,51 @@
+mp的主键生成策略：
+1、NONE：不指定主键生成策略，为默认。
+2、AUTO：自动增长，适用于主键为自动增长的主键上。
+<1>数据库表的id指定为自动增长。
+<2>@TableId注解中使用type=IdType.AUTO
+3、ASSIGN_ID：指定主键通过雪花算法生成一个19位的唯一数字
+<1>数据库表的id指定为字符串类型。
+<2>@TableId注解中使用type=IdType.ASSIGN_ID
+4、ASSIGN_UUID：指定主键通过雪花算法+UUID生成一个36位的字符串。
+<1>数据库表的id指定为字符串类型。
+<2>@TableId注解中使用type=IdType.ASSIGN_UUID
+注意：对于ASSIGN_ID和ASSIGN_UUID，必须指定主键的值为null,主键生成策略才能生效；Auto类型没有限制，都能生效。
+
+MP做分页：MP使用拦截器进行分页。
+1、编写配置类将MP拦截器MybatisPlusInterceptor注册成为bean。
+在MP拦截器中添加分页拦截器PaginationInnerInterceptor。
+2、使用分页，三种方式：
+<1>调用BaseMapper中的Page<T> selectPage(Page<T>,Wrapper wrapper)方法做分页。第一个参数指定分页信息对象Page，第二个参数指定分页查询条件。该方法返回Page<T>对象。
+<2>dao中自定义方法做分页，如：
+public Page<Employee>
+        selectEmpPageBySQL(Page<Employee> page,String dname);
+* 方法返回值必须为Page对象
+* 方法的第一个参数必须为Page对象，其他参数都接在page参数之后。
+* 分页拦截器能拦住这个方法自动帮我们做分页
+
+分页总结：
+1、第一种分页适合单表做分页。
+2、第二种分页适合多表做分页或者想优化sql语句的。
+
+
+<!--selectById是从basemapper中继承过来的，用来根据id做查询-->
+<association
+	select="com.ck.dao.IDeptDao.selectById"
+	column="e_d_id"
+	property="dept">
+</association>
+
+
+Page：分页信息对象。
+1、常用构造方法：
+new Page(当前页,每页显示的条数);
+2、重要方法：
+* getRecords()：获取分页数据
+* getCurrent()：获取当前页
+* getSize()：获取每页显示的条数
+* getPages()：获取总页数
+* getTotal()：获取总条数
+
+
+
+
